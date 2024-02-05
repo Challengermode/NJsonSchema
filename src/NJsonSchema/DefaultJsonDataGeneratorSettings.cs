@@ -9,7 +9,7 @@
 namespace NJsonSchema
 {
     /// <summary> Settings for generating sample json data.</summary>
-    public class SampleJsonDataGeneratorSettings
+    public class DefaultJsonDataGeneratorSettings
     {
         /// <summary>Gets or sets a value indicating whether to generate optional properties (default: true).</summary>
         public bool GenerateOptionalProperties { get; set; } = true;

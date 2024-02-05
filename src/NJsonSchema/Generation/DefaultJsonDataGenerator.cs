@@ -15,25 +15,17 @@ using System.Linq;
 namespace NJsonSchema.Generation
 {
     /// <summary>Generates a sample JSON object from a JSON Schema.</summary>
-    public class SampleJsonDataGenerator
+    public class DefaultJsonDataGenerator
     {
-        private readonly SampleJsonDataGeneratorSettings _settings;
+        private readonly DefaultJsonDataGeneratorSettings _settings;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="SampleJsonDataGenerator"/> class with default settings..
-        /// </summary>
-        public SampleJsonDataGenerator()
-        {
-            _settings = new SampleJsonDataGeneratorSettings();
-        }
-
-        /// <summary>
-        /// Initializes a new instance of <see cref="SampleJsonDataGenerator"/> class.
+        /// Initializes a new instance of <see cref="DefaultJsonDataGenerator"/> class.
         /// </summary>
         /// <param name="settings">The settings to use.</param>
-        public SampleJsonDataGenerator(SampleJsonDataGeneratorSettings settings)
+        public DefaultJsonDataGenerator(DefaultJsonDataGeneratorSettings? settings = null)
         {
-            _settings = settings;
+            _settings = settings ?? new DefaultJsonDataGeneratorSettings();
         }
 
         /// <summary>Generates a sample JSON object from a JSON Schema.</summary>
@@ -70,6 +62,10 @@ namespace NJsonSchema.Generation
                     }
 
                     return obj;
+                }
+                else if (schema.Default == null && schema.IsNullable(SchemaType.JsonSchema))
+                {
+                    return JValue.CreateNull();
                 }
                 else if (schema.Default != null)
                 {

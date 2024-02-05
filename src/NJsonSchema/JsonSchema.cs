@@ -906,9 +906,17 @@ namespace NJsonSchema
 
         /// <summary>Generates a sample JSON object from a JSON Schema.</summary>
         /// <returns>The JSON token.</returns>
+        [Obsolete("Use ToDefaultJson() instead.")]
         public JToken ToSampleJson()
         {
-            var generator = new SampleJsonDataGenerator();
+            return ToDefaultJson();
+        }
+
+        /// <summary>Generates a default JSON object from a JSON Schema.</summary>
+        /// <returns>The JSON token.</returns>
+        public JToken ToDefaultJson(DefaultJsonDataGeneratorSettings? settings = default)
+        {
+            var generator = new DefaultJsonDataGenerator(settings);
             return generator.Generate(this);
         }
 
