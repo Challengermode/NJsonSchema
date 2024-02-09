@@ -166,7 +166,7 @@ namespace NJsonSchema.Tests.Generation
                     ""additionalProperties"": false,
                     ""properties"": {
                       ""value"": {
-                        ""type"": ""integer"",
+                        ""type"": ""integer"",  
                         ""maximum"": 5,
                         ""minimum"": 1
                       }
@@ -174,8 +174,9 @@ namespace NJsonSchema.Tests.Generation
                   }
                 }
               }";
-            var generator = new DefaultJsonDataGenerator();
+            var generator = new DefaultJsonDataGenerator(new DefaultJsonDataGeneratorSettings() { GenerateExampleValues = true });
             var schema = await JsonSchema.FromJsonAsync(data);
+            
             //// Act
             var testJson = generator.Generate(schema);
 
@@ -231,7 +232,7 @@ namespace NJsonSchema.Tests.Generation
                   }
                 }
               }";
-            var generator = new DefaultJsonDataGenerator();
+            var generator = new DefaultJsonDataGenerator(new DefaultJsonDataGeneratorSettings() { GenerateExampleValues = true });
             var schema = await JsonSchema.FromJsonAsync(data);
             //// Act
             var testJson = generator.Generate(schema);
@@ -335,7 +336,7 @@ namespace NJsonSchema.Tests.Generation
                   }
                 }
               }";
-            var generator = new DefaultJsonDataGenerator();
+            var generator = new DefaultJsonDataGenerator(new DefaultJsonDataGeneratorSettings() { GenerateExampleValues = true });
             var schema = await JsonSchema.FromJsonAsync(data);
 
             //// Act
@@ -390,7 +391,7 @@ namespace NJsonSchema.Tests.Generation
                   }
                 }
               }";
-            var generator = new DefaultJsonDataGenerator();
+            var generator = new DefaultJsonDataGenerator(new DefaultJsonDataGeneratorSettings() { GenerateExampleValues = true });
             var schema = await JsonSchema.FromJsonAsync(data);
             //// Act
             var testJson = generator.Generate(schema);
@@ -494,7 +495,7 @@ namespace NJsonSchema.Tests.Generation
                   }
                 }
               }";
-            var generator = new DefaultJsonDataGenerator();
+            var generator = new DefaultJsonDataGenerator(new DefaultJsonDataGeneratorSettings() { GenerateExampleValues = true });
             var schema = await JsonSchema.FromJsonAsync(data);
             //// Act
             var testJson = generator.Generate(schema);

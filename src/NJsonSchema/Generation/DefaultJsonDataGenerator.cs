@@ -128,58 +128,68 @@ namespace NJsonSchema.Generation
             }
         }
 
-        private static JToken HandleNumberType(JsonSchema schema)
+        private JToken HandleNumberType(JsonSchema schema)
         {
-            if (schema.ExclusiveMinimumRaw?.Equals(true) == true && schema.Minimum != null)
+            if (_settings.GenerateExampleValues)
             {
-                return JToken.FromObject(schema.Minimum.Value + 0.1m);
-            }
-            else if (schema.ExclusiveMinimum != null)
-            {
-                return JToken.FromObject(schema.ExclusiveMinimum.Value);
-            }
-            else if (schema.Minimum.HasValue)
-            {
-                return schema.Minimum.Value;
+                if (schema.ExclusiveMinimumRaw?.Equals(true) == true && schema.Minimum != null)
+                {
+                    return JToken.FromObject(schema.Minimum.Value + 0.1m);
+                }
+                else if (schema.ExclusiveMinimum != null)
+                {
+                    return JToken.FromObject(schema.ExclusiveMinimum.Value);
+                }
+                else if (schema.Minimum.HasValue)
+                {
+                    return schema.Minimum.Value;
+                }
             }
             return JToken.FromObject(0.0);
         }
 
         private JToken HandleIntegerType(JsonSchema schema)
         {
-            if (schema.ExclusiveMinimumRaw != null)
+            if (_settings.GenerateExampleValues)
             {
-                return JToken.FromObject(Convert.ToInt32(schema.ExclusiveMinimumRaw));
-            }
-            else if (schema.ExclusiveMinimum != null)
-            {
-                return JToken.FromObject(Convert.ToInt32(schema.ExclusiveMinimum));
-            }
-            else if (schema.Minimum.HasValue)
-            {
-                return Convert.ToInt32(schema.Minimum);
+                if (schema.ExclusiveMinimumRaw != null)
+                {
+                    return JToken.FromObject(Convert.ToInt32(schema.ExclusiveMinimumRaw));
+                }
+                else if (schema.ExclusiveMinimum != null)
+                {
+                    return JToken.FromObject(Convert.ToInt32(schema.ExclusiveMinimum));
+                }
+                else if (schema.Minimum.HasValue)
+                {
+                    return Convert.ToInt32(schema.Minimum);
+                }
             }
             return JToken.FromObject(0);
         }
 
-        private static JToken HandleStringType(JsonSchema schema, JsonSchemaProperty? property)
+        /// <remarks>
+        /// Handles non-nullable "string" type properties. If the property is required, the value is an empty string.
+        /// </remarks>
+        private JToken HandleStringType(JsonSchema schema, JsonSchemaProperty? property)
         {
-            if (schema.Format == JsonFormatStrings.Date)
+            if (_settings.GenerateExampleValues)
             {
-                return JToken.FromObject(DateTimeOffset.UtcNow.ToString("yyyy-MM-dd"));
+                if (schema.Format == JsonFormatStrings.Date)
+                {
+                    return JToken.FromObject(DateTimeOffset.UtcNow.ToString("yyyy-MM-dd"));
+                }
+                else if (schema.Format == JsonFormatStrings.DateTime)
+                {
+                    return JToken.FromObject(DateTimeOffset.UtcNow.ToString("o"));
+                }
+                else if (property != null)
+                {
+                    return JToken.FromObject(property.Name);
+                }
             }
-            else if (schema.Format == JsonFormatStrings.DateTime)
-            {
-                return JToken.FromObject(DateTimeOffset.UtcNow.ToString("o"));
-            }
-            else if (property != null)
-            {
-                return JToken.FromObject(property.Name);
-            }
-            else
-            {
-                return JToken.FromObject("");
-            }
+            
+            return JToken.FromObject("");
         }
 
         private IEnumerable<KeyValuePair<string, JsonSchemaProperty>> GetPropertiesToGenerate(IEnumerable<JsonSchema> schemas)

@@ -3,6 +3,11 @@
   <PropertyGroup>
     <TargetFrameworks>net6.0;netstandard2.0;net462</TargetFrameworks>
   </PropertyGroup>
+    
+  <PropertyGroup>
+    <PackageId>NJsonSchema-cm-fork</PackageId>
+    <Version>11.0.0.3</Version>
+  </PropertyGroup>
 
   <PropertyGroup>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
